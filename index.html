@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pingi Mart - Keripik Singkong</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f9f9f9;color:#333}
+header{background:#d32f2f;color:white;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:10}
+.logo{font-size:28px;font-weight:bold}.logo span{color:#ffeb3b}
+button{cursor:pointer;border:0;border-radius:6px;padding:10px 15px;font-weight:bold}
+.nav-btn{background:#ffeb3b;color:#333}
+.hero{background:linear-gradient(#0008,#0008),url("https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=1200&q=80") center/cover no-repeat;color:white;text-align:center;padding:80px 20px}
+.hero h1{font-size:36px;margin-bottom:15px}.hero p{margin-bottom:25px}
+.hero a{display:inline-block;background:#ffeb3b;color:#333;padding:12px 25px;border-radius:25px;text-decoration:none;font-weight:bold}
+.products{max-width:1100px;margin:45px auto;padding:0 20px}
+.products h2{text-align:center;color:#d32f2f;margin-bottom:25px}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
+.card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px #0001}
+.card img{width:100%;height:200px;object-fit:cover}
+.info{padding:20px}.info h3{margin-bottom:10px}.info p{color:#666;margin-bottom:15px}
+.price{color:#d32f2f;font-size:20px;font-weight:bold;margin-bottom:15px}
+.add{background:#d32f2f;color:white;width:100%}
+.cart{max-width:700px;margin:40px auto;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 12px #0001}
+.cart h2{color:#d32f2f;margin-bottom:20px}
+.cart-item{display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-bottom:1px solid #ddd;gap:10px}
+.qty{display:flex;align-items:center;gap:8px}.qty button{background:#eee;padding:6px 10px}
+.total{background:#fff5f5;color:#d32f2f;padding:18px;margin:20px 0;font-size:20px;font-weight:bold;text-align:right}
+input,textarea,select{width:100%;padding:12px;margin:8px 0 15px;border:1px solid #ccc;border-radius:6px;font-size:16px}
+textarea{height:90px}.checkout{background:#25d366;color:white;width:100%;padding:14px;font-size:16px}
+footer{background:#333;color:white;text-align:center;padding:20px;margin-top:40px}
+@media(max-width:600px){.hero h1{font-size:27px}.cart{margin:25px 15px}.cart-item{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Pingi <span>Mart</span></div>
+  <button class="nav-btn" onclick="keKeranjang()">🛒 Keranjang (<span id="jumlah">0</span>)</button>
+</header>
+
+<section class="hero">
+  <h1>Keripik Singkong Super Renyah!</h1>
+  <p>Camilan renyah, gurih, dan bikin ketagihan.</p>
+  <a href="#produk">Belanja Sekarang</a>
+</section>
+
+<section class="products" id="produk">
+  <h2>Varian Rasa Pilihan</h2>
+  <div class="product-grid">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1621447504864-d8686e12698c?auto=format&fit=crop&w=500&q=80" alt="Singkong Balado">
+      <div class="info"><h3>Singkong Balado</h3><p>Rasa pedas manis dan gurih.</p><div class="price">Rp 15.000</div><button class="add" onclick="tambah(0)">Tambah ke Keranjang</button></div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=500&q=80" alt="Singkong Barbeque">
+      <div class="info"><h3>Singkong Barbeque</h3><p>Bumbu barbeque yang lezat.</p><div class="price">Rp 15.000</div><button class="add" onclick="tambah(1)">Tambah ke Keranjang</button></div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1599490659213-e2b9527bd087?auto=format&fit=crop&w=500&q=80" alt="Singkong Extra Pedas">
+      <div class="info"><h3>Singkong Extra Pedas</h3><p>Pedas menggigit untuk pecinta pedas.</p><div class="price">Rp 15.000</div><button class="add" onclick="tambah(2)">Tambah ke Keranjang</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="cart" id="keranjang">
+  <h2>Keranjang Belanja</h2>
+  <div id="isi">Keranjang masih kosong.</div>
+  <div class="total">Total: <span id="total">Rp 0</span></div>
+  <h3>Detail Pengiriman</h3>
+  <form onsubmit="checkout(event)">
+    <input id="nama" placeholder="Nama lengkap" required>
+    <textarea id="alamat" placeholder="Alamat lengkap" required></textarea>
+    <select id="bayar" required>
+      <option value="">Pilih pembayaran</option>
+      <option>COD</option><option>Transfer</option><option>QRIS</option>
+    </select>
+    <button class="checkout" type="submit">Checkout via WhatsApp</button>
+  </form>
+</section>
+
+<footer><p>© 2026 Pingi Mart</p><p>Keripik Singkong Renyah &amp; Gurih</p></footer>
+
+<script>
+const produk=[
+  {nama:"Singkong Balado",harga:15000},
+  {nama:"Singkong Barbeque",harga:15000},
+  {nama:"Singkong Extra Pedas",harga:15000}
+];
+let keranjang=[0,0,0];
+function rupiah(angka){return "Rp "+angka.toLocaleString("id-ID")}
+function tambah(i){keranjang[i]++;tampilkan()}
+function ubah(i,n){keranjang[i]+=n;if(keranjang[i]<0)keranjang[i]=0;tampilkan()}
+function hapus(i){keranjang[i]=0;tampilkan()}
+function tampilkan(){
+  let html="",total=0,jumlah=0;
+  produk.forEach((p,i)=>{
+    const q=keranjang[i];jumlah+=q;total+=q*p.harga;
+    if(q>0)html+=`<div class="cart-item"><div><b>${p.nama}</b><br>${rupiah(p.harga)} x ${q}<br>Subtotal: ${rupiah(q*p.harga)}</div><div class="qty"><button type="button" onclick="ubah(${i},-1)">−</button><span>${q}</span><button type="button" onclick="ubah(${i},1)">+</button><button type="button" onclick="hapus(${i})">Hapus</button></div></div>`;
+  });
+  document.getElementById("isi").innerHTML=html||"Keranjang masih kosong.";
+  document.getElementById("total").textContent=rupiah(total);
+  document.getElementById("jumlah").textContent=jumlah;
+}
+function keKeranjang(){document.getElementById("keranjang").scrollIntoView({behavior:"smooth"})}
+function checkout(e){
+  e.preventDefault();
+  const nama=document.getElementById("nama").value.trim();
+  const alamat=document.getElementById("alamat").value.trim();
+  const bayar=document.getElementById("bayar").value;
+  let total=0,pesanan="";
+  produk.forEach((p,i)=>{const q=keranjang[i];if(q>0){total+=q*p.harga;pesanan+=p.nama+" x "+q+" = "+rupiah(q*p.harga)+"\n"}});
+  if(total===0){alert("Keranjang masih kosong!");return}
+  const pesan="Halo Pingi Mart, saya ingin memesan:\n\n"+pesanan+"\nTotal: "+rupiah(total)+"\nNama: "+nama+"\nAlamat: "+alamat+"\nPembayaran: "+bayar;
+  // Ganti nomor ini dengan nomor WhatsApp toko (format 62, tanpa tanda +)
+  const nomorWA="6281234567890";
+  window.open("https://wa.me/"+nomorWA+"?text="+encodeURIComponent(pesan),"_blank");
+}
+tampilkan();
+</script>
+</body>
+</html>
